@@ -270,3 +270,39 @@
         
         
     }
+    
+    function addUser($username, $email, $password)
+    {
+        global $link;
+        $localEmail = mysqli_real_escape_string($link, $email);#делает строку безопасной, предотвращая sql инъекции
+        $localUsername = mysqli_real_escape_string($link, $username);
+        $localPassword = mysqli_real_escape_string($link, $password);
+        #1.Проверить, есть ли подписчик в базе
+        $query = "SELECT * FROM users WHERE email = '$localEmail'";
+        
+        $result = mysqli_query($link, $query);
+        $result = mysqli_query($link, $query);
+        
+        if (!$result->num_rows)
+        {
+            #2.Если его нет, то создаём подписчика с уникальным кодом
+            $userCode = generateCode();
+            $insertQuery = "INSERT INTO users (email, code, username, password) VALUES ('$localEmail', '$userCode', '$localUsername', '$localPassword')";
+            
+            $result = mysqli_query($link, $insertQuery);
+                    
+            if ($result)
+            {
+                return 'created';
+            }
+            else
+            {
+                return 'fail';
+            }
+        }
+        else
+        {
+            #3.Если он есть, направим на главную страницу, отправиви сообщение о его существовании в родительскую функцию
+            return 'exist';
+        }       
+    }
