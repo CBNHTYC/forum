@@ -6,7 +6,16 @@
     $subcatID = $_GET['subcatID'];
     $text = $_POST['text'];
     
-    $editResult = editPost($postID, $subcatID, $text, $authID);
+    if (isset($_SESSION['sessUserID']))
+    {
+        $userID = $_SESSION['sessUserID'];
+    }
+    else
+    {
+        $userID = 0;
+    }
+    
+    $editResult = editPost($postID, $subcatID, $text, $userID);
     
     header('Location:/subcategory.php?subcatID='.$subcatID.'&insert='.$editResult);
 

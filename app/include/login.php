@@ -7,7 +7,7 @@
     $email = trim($_POST['email']);
     
     $loginResult = loginUser($password, $email);
-    
-    header('Location:/app/include/authorisation.php?userID='.$loginResult['userID'].'&insert='.$loginResult['result']);
+    $_SESSION['userID'] = $loginResult['userID'];
+    header('Location:/?insert='.$loginResult['result']);
 
 

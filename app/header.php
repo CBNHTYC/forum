@@ -2,6 +2,7 @@
     require_once 'app/include/database.php';
     require_once 'app/include/functions.php';
     require_once 'app/include/authorisation.php';
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -50,18 +51,26 @@
                         </ul>
                     </li>            
                 </ul>
-                <form action="/login.php" method="post" class="navbar-form navbar-right hidden-sm">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="email" placeholder="E-mail" value="">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="Пароль" value="">
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-sign-in"></i> ВОЙТИ
+                <?php if (!isset($_SESSION['userID']) || $_SESSION['userID'] == 0) : ?>
+                <form action="/app/include/login.php" method="post" class="navbar-form navbar-right hidden-sm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="email" placeholder="E-mail" value="">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Пароль" value="">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-sign-in"></i> ВОЙТИ
+                        </button>
+                        <a href="/registr.php" class="btn btn-primary">Регистрация</a>
+                    </form>
+                <?php else : ?>
+                <div class="navbar-form navbar-right hidden-sm">
+                    <button type="button" class="btn btn-default btn-md">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= getUserNameByID($_SESSION['userID'])?>
                     </button>
-                    <a href="/registr.php" class="btn btn-primary">Регистрация</a>
-                </form>
+                </div>
+                <?php endif;?>
             </div>
         </div>
     </div>
