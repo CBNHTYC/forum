@@ -246,8 +246,7 @@
         #1.Проверить, есть ли подтема в базе
         $query = 'SELECT * FROM posts WHERE id = "'.$localPostID.'"';
         $result = mysqli_query($link, $query);
-        
-        $result = mysqli_query($link, $query);
+
         if ($result->num_rows)
         {
             $sql = 'UPDATE `posts` SET `text` = "'.$localText.'" WHERE `id` = "'.$localPostID.'"';
@@ -281,7 +280,6 @@
         $query = "SELECT * FROM users WHERE email = '$localEmail'";
         
         $result = mysqli_query($link, $query);
-        $result = mysqli_query($link, $query);
         
         if (!$result->num_rows)
         {
@@ -305,4 +303,32 @@
             #3.Если он есть, направим на главную страницу, отправиви сообщение о его существовании в родительскую функцию
             return 'exist';
         }       
+    }
+    
+    function loginUser ($password, $email)
+    {
+        global $link;
+        $localEmail = mysqli_real_escape_string($link, $email);#делает строку безопасной, предотвращая sql инъекции
+        $localPassword = mysqli_real_escape_string($link, $password);
+        #1.Проверить, есть ли подписчик в базе
+        $query = "SELECT * FROM users WHERE email = '$localEmail'";
+        $result = mysqli_query($link, $query);
+        $output = array(
+            "userID" => 0,
+            'result' => 'notExist',
+        );
+        if ($result->num_rows)
+        {
+            $user = mysqli_fetch_all($result, MYSQLI_ASSOC);        
+            if ($user['password'] == $localPassword)
+            {
+                $output['userID'] = $user['id'];
+                $output['result'] = 'entered';
+            }
+            else
+            {
+                $output['result'] = 'fail';
+            }
+        }
+        return $output;
     }

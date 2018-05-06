@@ -50,19 +50,18 @@
                         </ul>
                     </li>            
                 </ul>
-                <form action="/login.php" class="navbar-form navbar-right hidden-sm">
+                <form action="/login.php" method="post" class="navbar-form navbar-right hidden-sm">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="E-mail" value="">
+                        <input type="text" class="form-control" name="email" placeholder="E-mail" value="">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Пароль" value="">
+                        <input type="password" class="form-control" name="password" placeholder="Пароль" value="">
                     </div>
                     <button type="submit" class="btn btn-primary">
                         <i class="fa fa-sign-in"></i> ВОЙТИ
                     </button>
                     <a href="/registr.php" class="btn btn-primary">Регистрация</a>
                 </form>
-                
             </div>
         </div>
     </div>
