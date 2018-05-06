@@ -106,20 +106,20 @@
         return $subcat;
     }
     
-    function addSubcat($categoryID, $title, $description, $authID)
+    function addSubcat($categoryID, $title, $description, $userID)
     {
         global $link;
         $localCatID = mysqli_real_escape_string($link, $categoryID);#делает строку безопасной, предотвращая sql инъекции
         $localTitle = mysqli_real_escape_string($link, $title);
         $localDescription = mysqli_real_escape_string($link, $description);
-        $localAuthID = mysqli_real_escape_string($link, $authID);
+        $localUserID = mysqli_real_escape_string($link, $userID);
         #1.Проверить, есть ли подтема в базе
         $query = 'SELECT * FROM subcategories WHERE title = "'.$localTitle.'"';
         $result = mysqli_query($link, $query);
         if (!$result->num_rows)
         {
             #2.Если его нет, то создаём подтему
-            $insertQuery = "INSERT INTO subcategories (catID, title, description, authID) VALUES ('$localCatID', '$localTitle', '$localDescription', '$localAuthID')";
+            $insertQuery = "INSERT INTO subcategories (catID, title, description, userID) VALUES ('$localCatID', '$localTitle', '$localDescription', '$localUserID')";
             
             $result = mysqli_query($link, $insertQuery);
            
@@ -186,13 +186,13 @@
         return $name;
     }
     
-    function editSubcat($subcatID, $title, $description, $authID)
+    function editSubcat($subcatID, $title, $description, $userID)
     {
         global $link;
         $localSubcatID = mysqli_real_escape_string($link, $subcatID);#делает строку безопасной, предотвращая sql инъекции
         $localTitle = mysqli_real_escape_string($link, $title);
         $localDescription = mysqli_real_escape_string($link, $description);
-        $localAuthID = mysqli_real_escape_string($link, $authID);
+        $localUserID = mysqli_real_escape_string($link, $userID);
         #1.Проверить, есть ли подтема в базе
         $query = 'SELECT * FROM subcategories WHERE id = "'.$localSubcatID.'"';
         $result = mysqli_query($link, $query);
@@ -221,14 +221,14 @@
         
     }
     
-    function addPost($subcatID, $text, $authID)
+    function addPost($subcatID, $text, $userID)
     {
         global $link;
         $localSubcatID = mysqli_real_escape_string($link, $subcatID);#делает строку безопасной, предотвращая sql инъекции
         $localText = mysqli_real_escape_string($link, $text);
-        $localAuthID = mysqli_real_escape_string($link, $authID);
+        $localUserID = mysqli_real_escape_string($link, $userID);
         $date = date('d-m-Y H:i:s', time());
-        $insertQuery = "INSERT INTO posts (subcatID, text, authID, date) VALUES ('$localSubcatID', '$localText', '$localAuthID', '$date')";
+        $insertQuery = "INSERT INTO posts (subcatID, text, userID, date) VALUES ('$localSubcatID', '$localText', '$localUserID', '$date')";
 
         $result = mysqli_query($link, $insertQuery);
 
@@ -243,13 +243,13 @@
         }
     }
     
-    function editPost($postID, $subcatID, $text, $authID)
+    function editPost($postID, $subcatID, $text, $userID)
     {
         global $link;
         $localPostID = mysqli_real_escape_string($link, $postID);
         $localSubcatID = mysqli_real_escape_string($link, $subcatID);#делает строку безопасной, предотвращая sql инъекции
         $localText = mysqli_real_escape_string($link, $text);
-        $localAuthID = mysqli_real_escape_string($link, $authID);
+        $localUserID = mysqli_real_escape_string($link, $userID);
         #1.Проверить, есть ли подтема в базе
         $query = 'SELECT * FROM posts WHERE id = "'.$localPostID.'"';
         $result = mysqli_query($link, $query);
