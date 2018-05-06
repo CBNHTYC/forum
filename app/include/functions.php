@@ -165,17 +165,24 @@
 
     }
     
-    function getUserNameByID($authID)
+    function getUserNameByID($userID)
     {
         global $link;
         
-        $localAuthID= mysqli_real_escape_string($link, $authID);
-        $sql = "SELECT * FROM users WHERE id = ".$localAuthID;
-        
-        $result = mysqli_query($link, $sql);
-        
-        $user = mysqli_fetch_assoc($result);
-        $name = $user['nickname'];
+        $localUserID= mysqli_real_escape_string($link, $userID);
+        if (!$localUserID == 0)
+        {
+            $sql = "SELECT * FROM users WHERE id = ".$localUserID;
+
+            $result = mysqli_query($link, $sql);
+
+            $user = mysqli_fetch_assoc($result);
+            $name = $user['username'];
+        }
+        else 
+        {
+            $name = 'Гость';
+        }
         return $name;
     }
     
@@ -281,7 +288,7 @@
         
         $result = mysqli_query($link, $query);
         
-        if (!$result->num_rows)
+        if (!$result->num_rows && $localUsername!='Гость')
         {
             #2.Если его нет, то создаём подписчика с уникальным кодом
             $userCode = generateCode();
@@ -295,7 +302,14 @@
             }
             else
             {
-                return 'fail';
+                if ($localUsername == 'Гость')
+                {
+                    return 'Invalidusername';
+                }
+                else 
+                {
+                    return 'fail';
+                }
             }
         }
         else
@@ -319,7 +333,7 @@
         );
         if ($result->num_rows)
         {
-            $user = mysqli_fetch_all($result, MYSQLI_ASSOC);        
+            $user = mysqli_fetch_assoc($result); 
             if ($user['password'] == $localPassword)
             {
                 $output['userID'] = $user['id'];
@@ -327,6 +341,9 @@
             }
             else
             {
+                $p = $user["password"];
+                echo var_dump($user);
+                echo var_dump($output);
                 $output['result'] = 'fail';
             }
         }
