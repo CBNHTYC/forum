@@ -58,15 +58,18 @@
                         <div class="form-group">
                             <input type="password" class="form-control" name="password" placeholder="Пароль" value="">
                         </div>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-default">
                             <i class="fa fa-sign-in"></i> ВОЙТИ
                         </button>
-                        <a href="/registr.php" class="btn btn-primary">Регистрация</a>
+                        <a href="/registr.php" class="btn btn-default">Регистрация</a>
                     </form>
                 <?php else : ?>
                 <div class="navbar-form navbar-right hidden-sm">
                     <button type="button" class="btn btn-default btn-md">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= getUserNameByID($_SESSION['sessUserID'])?>
+                        <a href="/user.php?userID=<?=$_SESSION['sessUserID']?>" style="color:#000000"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= getUserNameByID($_SESSION['sessUserID'])?></a>   
+                    </button>
+                     <button type="button" class="btn btn-default btn-md">
+                         <a href="/app/include/logout.php" style="color:#000000"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Выход </a>   
                     </button>
                 </div>
                 <?php endif;?>

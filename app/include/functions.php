@@ -330,6 +330,7 @@
         $output = array(
             "userID" => 0,
             'result' => 'notExist',
+            'isAdmin' => 0,
         );
         if ($result->num_rows)
         {
@@ -338,6 +339,7 @@
             {
                 $output['userID'] = $user['id'];
                 $output['result'] = 'entered';
+                $output['isAdmin'] = $user['status'];
             }
             else
             {
@@ -348,4 +350,45 @@
             }
         }
         return $output;
+    }
+    
+    function getUserImgByID($userID)
+    {
+        global $link;
+        
+        $localUserID= mysqli_real_escape_string($link, $userID);
+        if (!$localUserID == 0)
+        {
+            $sql = "SELECT * FROM users WHERE id = ".$localUserID;
+
+            $result = mysqli_query($link, $sql);
+
+            $user = mysqli_fetch_assoc($result);
+            $name = $user['img'];
+        }
+        else 
+        {
+            $name = 'default.jpg';
+        }
+        return $name;
+    }
+    
+    function getUserByID($userID)
+    {
+        global $link;
+        
+        $localUserID= mysqli_real_escape_string($link, $userID);
+        if (!$localUserID == 0)
+        {
+            $sql = "SELECT * FROM users WHERE id = ".$localUserID;
+
+            $result = mysqli_query($link, $sql);
+
+            $user = mysqli_fetch_assoc($result);
+        }
+        else 
+        {
+            $user['id'] = 0;
+        }
+        return $user;
     }

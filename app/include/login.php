@@ -8,6 +8,7 @@
     $loginResult = loginUser($password, $email);
     session_start();
     $_SESSION['sessUserID'] = $loginResult['userID'];
+    $_SESSION['sessIsAdmin'] = $loginResult['isAdmin'];
     header('Location:/?insert='.$loginResult['result'].'&sess='.$_SESSION['sessUserID'] );
 
 

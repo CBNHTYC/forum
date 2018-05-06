@@ -28,7 +28,9 @@ require 'app/header.php';
                     <div class="page-header">
                         <h1>
                             <?=$categoryTitle?>
-                            <a href="#spoiler-add" data-toggle="collapse" class="btn btn-link spoiler collapsed">Добавить подраздел</a>
+                            <?php if (isset($_SESSION['sessIsAdmin']) && $_SESSION['sessIsAdmin'] > 0) : ?>
+                                <a href="#spoiler-add" data-toggle="collapse" class="btn btn-link spoiler collapsed">Добавить подраздел</a>
+                            <?php endif; ?>
                         </h1>
                         <form action="/app/include/addSubcategory.php?catID=<?=$categoryID['id']?>" method="post" class="collapse" id="spoiler-add">
                             <div class="well">
@@ -52,11 +54,14 @@ require 'app/header.php';
                     <p><?=$subcategory['description']?></p>
                     <p>
                         <a class="btn btn-info btn-sm" href="/subcategory.php?subcatID=<?=$subcategory['id']?>">Перейти в подраздел</a>
-                        <a href="#spoiler-<?=$subcategory['id']?>" data-toggle="collapse" class="btn btn-link spoiler collapsed">Редактировать подраздел</a>    
+                        <?php if ($subcategory['userID'] == $_SESSION['sessUserID']) : ?>
+                            <a href="#spoiler-<?=$subcategory['id']?>" data-toggle="collapse" class="btn btn-link spoiler collapsed">Редактировать подраздел</a>    
+                        <?php endif;?>
                     </p> 
                     <br/>
                     <ul class="list-inline">
                         <li><i class="glyphicon glyphicon-list"></i> <li><a href = "/category.php?id=<?=$categoryID?>"><?=$categoryTitle?></a></li> | </li>
+                        <li><i class="glyphicon glyphicon-user"></i> by <a href="/user.php?userID=<?=$subcategory['userID']?>"><?=getUserNameByID($subcategory['userID'])?></a> | </li>
                     </ul>
                     
                     <form action="/app/include/editSubcategory.php?catID=<?=$categoryID['id']?>&subcatID=<?=$subcategory['id']?>" method="post" class="collapse" id="spoiler-<?=$subcategory['id']?>">

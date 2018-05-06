@@ -40,14 +40,16 @@ require 'app/header.php';
             </div>
             
             <?php foreach ($posts as $post): ?>
-            <div class="row">
-                <div class="col-md-12">
+            <div class="container">
+                <div class="row">
                     <p><?=$post['text']?></p>
                     <br/>
                     <ul class="list-inline">
-                        <li><i class="glyphicon glyphicon-user"></i> by <a href="/user.php"><?=getUserNameByID($post['authID'])?></a> | </li>
+                         <li><i class="glyphicon glyphicon-user"></i> by <a href="/user.php?userID=<?=$post['userID']?>"><?=getUserNameByID($post['userID'])?></a> | </li>
                         <li><i class="glyphicon glyphicon-calendar"></i> <?=$post['date']?> | </li>
-                        <li><a href="#spoiler-<?=$post['id']?>" data-toggle="collapse" class="btn btn-link spoiler collapsed">Редактировать</a></li>    
+                        <?php if ($post['userID'] == $_SESSION['sessUserID']) : ?>
+                            <li><a href="#spoiler-<?=$post['id']?>" data-toggle="collapse" class="btn btn-link spoiler collapsed">Редактировать</a></li>    
+                        <?php endif; ?>
                     </ul>
                     <form action="/app/include/editPost.php?postID=<?=$post['id']?>&subcatID=<?=$subcatID?>" method="post" class="collapse" id="spoiler-<?=$post['id']?>">
                         <div class="well">
@@ -59,8 +61,8 @@ require 'app/header.php';
                         </div>
                     </form>
                 </div>
-            </div>
             <hr>
+            </div>
             <?php endforeach;?>
             <form action="/app/include/addPost.php?catID=<?=$subcatID?>" method="post">
                 <textarea class="form-control" name="text" rows="3" placeholder="Введите Ваше сообщение..."></textarea>

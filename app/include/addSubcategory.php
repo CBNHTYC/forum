@@ -1,6 +1,7 @@
 <?php
     require_once 'database.php';
     require_once 'functions.php';
+    session_start();
     
     $categoryID = $_GET['catID'];
     $title = trim($_POST['title']);
