@@ -24,7 +24,7 @@ require 'app/header.php';
         <div class="row">
             <div class="col-md-9">
                 <h3><i class="glyphicon glyphicon-user"></i> <?=$user['username']?> </h3>
-                <input type="file" accept="jpg" name="getavatar">
+                <!--<input type="file" accept="jpg" name="getavatar">-->
                 <br/>
                 <div class="col-md-2">
                     <img src='/public/images/avatars/<?=$user['img']?>' alt="" width="150">
@@ -34,6 +34,15 @@ require 'app/header.php';
                         <li> Контакты: <?=$user['email']?> </li>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="container">
+       <div class="row">
+           <div class="col-md-9">
+               <h3>Пользователь не прошёл регистрацию, идентификация не возможна</h3>
+             </div>
         </div>
     </div>
 <?php endif; ?>

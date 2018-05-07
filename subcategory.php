@@ -39,6 +39,7 @@ require 'app/header.php';
                 </div>
             </div>
             
+            
             <?php foreach ($posts as $post): ?>
             <div class="container">
                 <div class="row">
@@ -47,7 +48,7 @@ require 'app/header.php';
                     <ul class="list-inline">
                          <li><i class="glyphicon glyphicon-user"></i> by <a href="/user.php?userID=<?=$post['userID']?>"><?=getUserNameByID($post['userID'])?></a> | </li>
                         <li><i class="glyphicon glyphicon-calendar"></i> <?=$post['date']?> | </li>
-                        <?php if ($post['userID'] == $_SESSION['sessUserID']) : ?>
+                        <?php if ($post['userID'] == $_SESSION['sessUserID'] | $_SESSION['sessIsAdmin'] == 2) : ?>
                             <li><a href="#spoiler-<?=$post['id']?>" data-toggle="collapse" class="btn btn-link spoiler collapsed">Редактировать</a></li>    
                         <?php endif; ?>
                     </ul>
@@ -57,6 +58,7 @@ require 'app/header.php';
                             <p></p>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-default">Подтвердить изменения</button>
+                                <a href="/app/include/delPost.php?postID=<?=$post['id']?>&subcatID=<?=$post['subcatID']?>" class="btn btn-default">Удалить сообщение</a>
                             </div>
                         </div>
                     </form>

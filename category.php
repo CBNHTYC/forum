@@ -29,7 +29,7 @@ require 'app/header.php';
                         <h1>
                             <?=$categoryTitle?>
                             <?php if (isset($_SESSION['sessIsAdmin']) && $_SESSION['sessIsAdmin'] > 0) : ?>
-                                <a href="#spoiler-add" data-toggle="collapse" class="btn btn-link spoiler collapsed">Добавить подраздел</a>
+                                <a href="#spoiler-add" data-toggle="collapse" class="btn btn-link spoiler collapsed">Добавить тему</a>
                             <?php endif; ?>
                         </h1>
                         <form action="/app/include/addSubcategory.php?catID=<?=$categoryID['id']?>" method="post" class="collapse" id="spoiler-add">
@@ -53,9 +53,9 @@ require 'app/header.php';
                     <h4><a href="/subcategory.php?subcatID=<?=$subcategory['id']?>"><?=$subcategory['title']?></a></h4>
                     <p><?=$subcategory['description']?></p>
                     <p>
-                        <a class="btn btn-info btn-sm" href="/subcategory.php?subcatID=<?=$subcategory['id']?>">Перейти в подраздел</a>
+                        <a class="btn btn-info btn-sm" href="/subcategory.php?subcatID=<?=$subcategory['id']?>">Перейти в тему</a>
                         <?php if ($subcategory['userID'] == $_SESSION['sessUserID']) : ?>
-                            <a href="#spoiler-<?=$subcategory['id']?>" data-toggle="collapse" class="btn btn-link spoiler collapsed">Редактировать подраздел</a>    
+                            <a href="#spoiler-<?=$subcategory['id']?>" data-toggle="collapse" class="btn btn-link spoiler collapsed">Редактировать тему</a>    
                         <?php endif;?>
                     </p> 
                     <br/>
@@ -64,7 +64,7 @@ require 'app/header.php';
                         <li><i class="glyphicon glyphicon-user"></i> by <a href="/user.php?userID=<?=$subcategory['userID']?>"><?=getUserNameByID($subcategory['userID'])?></a> | </li>
                     </ul>
                     
-                    <form action="/app/include/editSubcategory.php?catID=<?=$categoryID['id']?>&subcatID=<?=$subcategory['id']?>" method="post" class="collapse" id="spoiler-<?=$subcategory['id']?>">
+                    <form action="/app/include/editSubcategory.php?catID=<?=$categoryID?>&subcatID=<?=$subcategory['id']?>" method="post" class="collapse" id="spoiler-<?=$subcategory['id']?>">
                         <div class="well">
                             <input type="text" name="title" value="<?=$subcategory['title']?>" class="form-control">
                             <p></p>
@@ -72,6 +72,9 @@ require 'app/header.php';
                             <p></p>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-default">Подтвердить изменения</button>
+                                <?php if (isset($_SESSION['sessIsAdmin']) && $_SESSION['sessIsAdmin'] == 2) : ?>
+                                    <a href="/app/include/delSubcategory.php?catID=<?=$categoryID?>&subcatID=<?=$subcategory['id']?>" class="btn btn-default">Удалить тему</a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </form>
@@ -79,8 +82,7 @@ require 'app/header.php';
                 </div>
             </div>
             <hr>
-            <?php endforeach;?>
-            <hr>            
+            <?php endforeach;?>           
         </div>  
     </div>
 </div>

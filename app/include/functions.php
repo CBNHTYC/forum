@@ -392,3 +392,153 @@
         }
         return $user;
     }
+    
+    function editCat($catID, $title, $description)
+    {
+        global $link;
+        $localCatID = mysqli_real_escape_string($link, $catID);#делает строку безопасной, предотвращая sql инъекции
+        $localTitle = mysqli_real_escape_string($link, $title);
+        $localDescription = mysqli_real_escape_string($link, $description);
+
+        $query = 'SELECT * FROM categories WHERE id = "'.$localCatID.'"';
+        $result = mysqli_query($link, $query);
+
+        if ($result->num_rows)
+        {
+            $sql = 'UPDATE `categories` SET `title` = "'.$localTitle.'", `description` = "'.$localDescription.'" WHERE `categories`.`id` = "'.$localCatID.'"';
+            $result = mysqli_query($link, $sql);
+                   
+            if ($result)
+            {
+                return 'edited';
+            }
+            else
+            {
+                return 'fail';
+            }
+        }
+        else
+        {
+            #3.Если он есть, направим на главную страницу, отправиви сообщение о его существовании в родительскую функцию
+            return 'notExist';
+        }
+    }
+    
+    function delCat($catID)
+    {
+        global $link;
+        $localCatID = mysqli_real_escape_string($link, $catID);#делает строку безопасной, предотвращая sql инъекции
+        
+        $query = 'SELECT * FROM categories WHERE id = "'.$localCatID.'"';
+        $result = mysqli_query($link, $query);
+
+        if ($result->num_rows)
+        {
+            $sql = 'DELETE FROM `categories` WHERE `id` = "'.$localCatID.'"';
+            $result = mysqli_query($link, $sql);
+                   
+            if ($result)
+            {
+                return 'deleted';
+            }
+            else
+            {
+                return 'fail';
+            }
+        }
+        else
+        {
+            #3.Если он есть, направим на главную страницу, отправиви сообщение о его существовании в родительскую функцию
+            return 'notExist';
+        }
+    }
+    
+    function delSubcat($subcatID)
+    {
+        global $link;
+        $localSubcatID = mysqli_real_escape_string($link, $subcatID);#делает строку безопасной, предотвращая sql инъекции
+        
+        $query = 'SELECT * FROM subcategories WHERE id = "'.$localSubcatID.'"';
+        $result = mysqli_query($link, $query);
+
+        if ($result->num_rows)
+        {
+            $sql = 'DELETE FROM `subcategories` WHERE `id` = "'.$localSubcatID.'"';
+            $result = mysqli_query($link, $sql);
+                   
+            if ($result)
+            {
+                return 'deleted';
+            }
+            else
+            {
+                return 'fail';
+            }
+        }
+        else
+        {
+            #3.Если он есть, направим на главную страницу, отправиви сообщение о его существовании в родительскую функцию
+            return 'notExist';
+        }
+    }
+    
+    function delPost($postID)
+    {
+        global $link;
+        $localPostID = mysqli_real_escape_string($link, $postID);#делает строку безопасной, предотвращая sql инъекции
+        
+        $query = 'SELECT * FROM posts WHERE id = "'.$localPostID.'"';
+        $result = mysqli_query($link, $query);
+
+        if ($result->num_rows)
+        {
+            $sql = 'DELETE FROM `posts` WHERE `id` = "'.$localPostID.'"';
+            $result = mysqli_query($link, $sql);
+                   
+            if ($result)
+            {
+                return 'deleted';
+            }
+            else
+            {
+                return 'fail';
+            }
+        }
+        else
+        {
+            #3.Если он есть, направим на главную страницу, отправиви сообщение о его существовании в родительскую функцию
+            return 'notExist';
+        }
+    }
+    
+    function addCat($title, $description)
+    {
+        global $link;
+        $localTitle = mysqli_real_escape_string($link, $title);
+        $localDescription = mysqli_real_escape_string($link, $description);$localUserID = mysqli_real_escape_string($link, $userID);
+        
+        $query = 'SELECT * FROM categories WHERE title = "'.$localTitle.'"';
+        $result = mysqli_query($link, $query);
+        if (!$result->num_rows)
+        {
+            #2.Если его нет, то создаём подтему
+            $insertQuery = "INSERT INTO categories (title, description) VALUES ('$localTitle', '$localDescription')";
+            
+            $result = mysqli_query($link, $insertQuery);
+           
+                    
+            if ($result)
+            {
+                return 'created';
+            }
+            else
+            {
+                return 'fail';
+            }
+        }
+        else
+        {
+            #3.Если он есть, направим на главную страницу, отправиви сообщение о его существовании в родительскую функцию
+            return 'exist';
+        }
+    }
